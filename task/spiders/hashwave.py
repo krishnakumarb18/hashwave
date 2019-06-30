@@ -19,10 +19,18 @@ class ToScrapeCSSSpider(scrapy.Spider):
             yield scrapy.Request(url=companyUrl,callback=self.parseCompanyPage)
 
     def parseCompanyPage(self, response):
-        print("xxxxxxxx:",response.xpath("//h1/span/text()"))
+        # print("xxxxxxxx:",response.xpath("//h1/span/text()"))
+        yield {
+            'logoUrl': response.xpath(".//img[@class='lazy']/@src").extract_first(),
+            'title': response.xpath(".//h1/span/text()").extract_first(),
+            'subTitle': response.xpath(".//span[@class='sub']/text()").extract_first(),
+            'primaryLocation':response.xpath(".//span[@itemprop='addressLocality']/text()").extract_first(),
+            'areaOfExpertise':response.xpath(".//a[@class='mainExp']/text()").extract_first(),
+            # 'about':response.xpath(".//tr/td/p/text()").extract()
+            # 'about': response.xpath(".//div[contains(@class, 'section') and contains(@class, 'details'))]").extract()
+        }
 
-
-        # response.xpath("//h1/span/text()]")
+       
 
 
 
