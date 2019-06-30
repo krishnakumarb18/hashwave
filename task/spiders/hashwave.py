@@ -11,73 +11,57 @@ class ToScrapeCSSSpider(scrapy.Spider):
             endPart = str(providers.xpath("a/@href").extract())
             endPart = endPart[3:-2]
             companyUrl = self.start_urls[1]+endPart
-            # print(companyUrl)
+            # yield{'hai':response.xpath('.//div[@class="nav-page"]/a[5]/@href').extract_first()}
+           
+        
+        
 
-            # compDet = response.xpath(companyUrl).extract()
-            # compData = response.urljoin(compDet)
-
+    
             yield scrapy.Request(url=companyUrl,callback=self.parseCompanyPage)
 
+        nextPage=str(response.xpath('.//div[@class="nav-page"]/a[5]/@href').extract_first())    
+        actualPage=self.start_urls[1]+nextPage
+        if actualPage :
+         yield scrapy.Request(url=actualPage,callback=self.parse)
+        
+
     def parseCompanyPage(self, response):
-        # print("xxxxxxxx:",response.xpath("//h1/span/text()"))
+       
         yield {
             'logoUrl': response.xpath(".//img[@class='lazy']/@src").extract_first(),
             'title': response.xpath(".//h1/span/text()").extract_first(),
             'subTitle': response.xpath(".//span[@class='sub']/text()").extract_first(),
             'primaryLocation':response.xpath(".//span[@itemprop='addressLocality']/text()").extract_first(),
             'areaOfExpertise':response.xpath(".//a[@class='mainExp']/text()").extract_first(),
-            # 'about':response.xpath(".//tr/td/p/text()").extract()
-            # 'about': response.xpath(".//td/p/text()").extract()
-           'about':response.xpath(".//tr[td/text() ='About:']/td/p/text()").extract(),
-           'website':response.xpath(".//tr[td/text() ='Website:']/td/a/@href").extract(),
-           "languageSpoken":response.xpath(".//tr[td/text() ='Languages spoken:']/td/text()").extract()
+            'about':response.xpath(".//tr[td/text() ='About:']/td/p/text()").extract(),
+            'website':response.xpath(".//tr[td/text() ='Website:']/td/a/@href").extract(),
+            "languageSpoken":response.xpath(".//tr[td/text() ='Languages spoken:']/td/text()").extract()
         }
 
-       
 
-
-
-
-
-
-
+     
+        
+         
+        
             
-
-
-
-        # for quote in response.css("div.quote"):
-        #     yield { 'out':quote.css("a.href").extract_first(),}
-            
-
-
-# class BrickSetSpider(scrapy.Spider):
-#     name = 'brick_spider'
-#     start_urls = ['http://www.globaltrade.net/United-States/expert-service-provider.html']
-
-#     def parse(self, response):
-#         SET_SELECTOR = '.profileNavigator'
-
-#         for brickset in response.css(SET_SELECTOR):
-
-#             COUNTRY_SELECTOR = brickset.css(SET_SELECTOR).extract_first()
-
-        #     NAME_SELECTOR = 'h1 ::text'
-        #     PIECES_SELECTOR = './/dl[dt/text() = "Pieces"]/dd/a/text()'
-        #     MINIFIGS_SELECTOR = './/dl[dt/text() = "Minifigs"]/dd[2]/a/text()'
-        #     IMAGE_SELECTOR = 'img ::attr(src)'
-            # yield {
-            #     'country': brickset.xpath(COUNTRY_SELECTOR).extract(),
-                # 'pieces': brickset.xpath(PIECES_SELECTOR).extract_first(),
-                # 'minifigs': brickset.xpath(MINIFIGS_SELECTOR).extract_first(),
-                # 'image': brickset.css(IMAGE_SELECTOR).extract_first(),
-            # }
-
-        # NEXT_PAGE_SELECTOR = '.next a ::attr(href)'
-        # next_page = response.css(NEXT_PAGE_SELECTOR).extract_first()
+    
+        
+        # NEXT_PAGE_SELECTOR = './/div[@class="nav-page"]/a[5]/@href'
+        # next_page = response.xpath(NEXT_PAGE_SELECTOR).extract_first()
         # if next_page:
-        #     yield scrapy.Request(
+        #       yield scrapy.Request(
         #         response.urljoin(next_page),
         #         callback=self.parse
-        #     )
+        #     )   
+
+
+
+
+
+
+
+            
+
+
 
        
