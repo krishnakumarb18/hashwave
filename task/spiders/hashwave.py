@@ -11,6 +11,24 @@ class ToScrapeCSSSpider(scrapy.Spider):
             endPart = str(providers.xpath("a/@href").extract())
             endPart = endPart[3:-2]
             companyUrl = self.start_urls[1]+endPart
+            # print(companyUrl)
+
+            # compDet = response.xpath(companyUrl).extract()
+            # compData = response.urljoin(compDet)
+
+            yield scrapy.Request(url=companyUrl,callback=self.parseCompanyPage)
+
+    def parseCompanyPage(self, response):
+        print("xxxxxxxx:",response.xpath("//h1/span/text()"))
+
+
+        # response.xpath("//h1/span/text()]")
+
+
+
+
+
+
 
             
 
