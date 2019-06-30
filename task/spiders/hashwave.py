@@ -27,7 +27,10 @@ class ToScrapeCSSSpider(scrapy.Spider):
             'primaryLocation':response.xpath(".//span[@itemprop='addressLocality']/text()").extract_first(),
             'areaOfExpertise':response.xpath(".//a[@class='mainExp']/text()").extract_first(),
             # 'about':response.xpath(".//tr/td/p/text()").extract()
-            # 'about': response.xpath(".//div[contains(@class, 'section') and contains(@class, 'details'))]").extract()
+            # 'about': response.xpath(".//td/p/text()").extract()
+           'about':response.xpath(".//tr[td/text() ='About:']/td/p/text()").extract(),
+           'website':response.xpath(".//tr[td/text() ='Website:']/td/a/@href").extract(),
+           "languageSpoken":response.xpath(".//tr[td/text() ='Languages spoken:']/td/text()").extract()
         }
 
        
