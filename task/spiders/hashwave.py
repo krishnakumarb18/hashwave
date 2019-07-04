@@ -30,7 +30,7 @@ class ToScrapeCSSSpider(scrapy.Spider):
             'areaOfExpertise':response.xpath(".//a[@class='mainExp']/text()").extract_first(),
             'about':response.xpath(".//tr[td/text() ='About:']/td/p/text()").extract_first(),
             'website':response.xpath(".//tr[td/text() ='Website:']/td/a/@href").extract_first(),
-            "languageSpoken":response.xpath(".//tr[td/text() ='Languages spoken:']/td/text()").extract_first()
+            "languageSpoken":response.xpath(".//tr[td/text() ='Languages spoken:']/td[2]/text()").extract_first()
         }
 
 
